@@ -1,0 +1,82 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String?
+  password     String?
+  provider     String?
+  profileImage String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  portfolio    Portfolio?
+}
+
+model Portfolio {
+  id           String    @id @default(cuid())
+  userId       String    @unique
+  user         User      @relation(fields: [userId], references: [id])
+  slug         String    @unique
+  artistName   String
+  bio          String?
+  genre        String?
+  heroImage    String?
+  profileImage String?
+  gradientFrom String    @default("#1a1a2e")
+  gradientTo   String    @default("#16213e")
+  isPublished  Boolean   @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  works        Work[]
+  links        Link[]
+  pageViews    PageView[]
+}
+
+model Work {
+  id           String    @id @default(cuid())
+  portfolioId  String
+  portfolio    Portfolio  @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  title        String
+  type         String    // VIDEO | AUDIO | IMAGE
+  mediaUrl     String
+  thumbnailUrl String?
+  isBgm        Boolean   @default(false)
+  autoPlay     Boolean   @default(false)
+  order        Int       @default(0)
+  createdAt    DateTime  @default(now())
+
+  @@index([portfolioId])
+}
+
+model Link {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio  @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  title       String
+  url         String
+  icon        String?
+  order       Int       @default(0)
+
+  @@index([portfolioId])
+}
+
+model PageView {
+  id          String    @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio  @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  viewedAt    DateTime  @default(now())
+  referrer    String?
+  device      String?
+  ipHash      String?
+
+  @@index([portfolioId])
+  @@index([ipHash, portfolioId])
+}
