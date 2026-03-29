@@ -23,9 +23,16 @@ export async function PUT(
     }
 
     const body = await req.json()
+
+    // Whitelist allowed fields to prevent mass-assignment
     const updated = await prisma.link.update({
       where: { id: params.id },
-      data: body,
+      data: {
+        ...(body.title !== undefined && { title: String(body.title) }),
+        ...(body.url !== undefined && { url: String(body.url) }),
+        ...(body.icon !== undefined && { icon: body.icon }),
+        ...(body.order !== undefined && { order: Number(body.order) }),
+      },
     })
 
     return NextResponse.json({ data: updated })

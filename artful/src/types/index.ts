@@ -67,7 +67,7 @@ export interface PageView {
   viewedAt: Date
   referrer: string | null
   device: string | null
-  country: string | null
+  ipHash: string | null
 }
 
 // ===== API 요청/응답 타입 =====

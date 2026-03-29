@@ -32,9 +32,18 @@ export async function PUT(
       })
     }
 
+    // Whitelist allowed fields to prevent mass-assignment
     const updated = await prisma.work.update({
       where: { id: params.id },
-      data: body,
+      data: {
+        ...(body.title !== undefined && { title: String(body.title) }),
+        ...(body.type !== undefined && ["VIDEO", "AUDIO", "IMAGE"].includes(body.type) && { type: body.type }),
+        ...(body.mediaUrl !== undefined && { mediaUrl: String(body.mediaUrl) }),
+        ...(body.thumbnailUrl !== undefined && { thumbnailUrl: body.thumbnailUrl }),
+        ...(body.isBgm !== undefined && { isBgm: Boolean(body.isBgm) }),
+        ...(body.autoPlay !== undefined && { autoPlay: Boolean(body.autoPlay) }),
+        ...(body.order !== undefined && { order: Number(body.order) }),
+      },
     })
 
     return NextResponse.json({ data: updated })

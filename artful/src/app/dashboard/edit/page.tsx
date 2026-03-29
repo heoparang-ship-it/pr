@@ -8,6 +8,7 @@ import { useEditorStore } from "@/stores/editorStore"
 import { useCallback, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { toast } from "sonner"
+import Link from "next/link"
 import type { EditorTab } from "@/types"
 
 const TABS: { key: EditorTab; label: string }[] = [
@@ -214,7 +215,7 @@ export default function EditPage() {
     <div className="min-h-screen bg-background">
       {/* 헤더 */}
       <header className="border-b border-border px-4 py-3 flex items-center justify-between sticky top-0 bg-background z-10">
-        <a href="/dashboard" className="text-lg font-bold">← Artful</a>
+        <Link href="/dashboard" className="text-lg font-bold">← Artful</Link>
         <span className="text-sm text-muted-foreground" aria-live="polite">
           {isSaving ? "저장 중..." : isDirty ? "변경사항 있음" : "저장됨 ✓"}
         </span>

@@ -59,6 +59,23 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "바이오는 200자 이내로 입력해주세요" }, { status: 400 })
     }
 
+    // Gradient CSS injection 방지: hex color만 허용
+    const hexColorRegex = /^#[0-9a-fA-F]{3,8}$/
+    if (body.gradientFrom && !hexColorRegex.test(body.gradientFrom)) {
+      return NextResponse.json({ error: "올바른 색상 값이 아닙니다" }, { status: 400 })
+    }
+    if (body.gradientTo && !hexColorRegex.test(body.gradientTo)) {
+      return NextResponse.json({ error: "올바른 색상 값이 아닙니다" }, { status: 400 })
+    }
+
+    // heroImage/profileImage URL 검증: http(s)만 허용
+    if (body.heroImage && !body.heroImage.startsWith("https://")) {
+      return NextResponse.json({ error: "이미지 URL은 https://로 시작해야 합니다" }, { status: 400 })
+    }
+    if (body.profileImage && !body.profileImage.startsWith("https://")) {
+      return NextResponse.json({ error: "이미지 URL은 https://로 시작해야 합니다" }, { status: 400 })
+    }
+
     if (body.slug && !isValidSlug(body.slug)) {
       return NextResponse.json(
         { error: "slug는 영문, 숫자, 하이픈만 사용 가능합니다 (3~30자)" },

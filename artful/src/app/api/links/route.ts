@@ -25,8 +25,8 @@ export async function POST(req: Request) {
     if (!body.title || typeof body.title !== "string" || body.title.trim().length === 0) {
       return NextResponse.json({ error: "제목을 입력해주세요" }, { status: 400 })
     }
-    if (!body.url || typeof body.url !== "string" || !body.url.startsWith("http")) {
-      return NextResponse.json({ error: "올바른 URL을 입력해주세요" }, { status: 400 })
+    if (!body.url || typeof body.url !== "string" || !(body.url.startsWith("https://") || body.url.startsWith("http://"))) {
+      return NextResponse.json({ error: "URL은 https:// 또는 http://로 시작해야 합니다" }, { status: 400 })
     }
 
     const link = await prisma.link.create({

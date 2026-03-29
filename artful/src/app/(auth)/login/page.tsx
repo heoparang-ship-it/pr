@@ -1,5 +1,6 @@
 "use client"
 
+import Link from "next/link"
 import { signIn } from "next-auth/react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
@@ -100,9 +101,9 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-muted-foreground">
           계정이 없으신가요?{" "}
-          <a href="/register" className="text-primary hover:underline">
+          <Link href="/register" className="text-primary hover:underline">
             가입하기
-          </a>
+          </Link>
         </p>
       </div>
     </div>
