@@ -49,6 +49,16 @@ export async function PUT(req: Request) {
 
     const body = await req.json()
 
+    // [15회차] artistName 빈값 방지
+    if (body.artistName !== undefined && (!body.artistName || body.artistName.trim().length === 0)) {
+      return NextResponse.json({ error: "아티스트명은 비워둘 수 없습니다" }, { status: 400 })
+    }
+
+    // [16회차] bio 길이 제한 (서버에서도 체크)
+    if (body.bio && body.bio.length > 200) {
+      return NextResponse.json({ error: "바이오는 200자 이내로 입력해주세요" }, { status: 400 })
+    }
+
     if (body.slug && !isValidSlug(body.slug)) {
       return NextResponse.json(
         { error: "slug는 영문, 숫자, 하이픈만 사용 가능합니다 (3~30자)" },

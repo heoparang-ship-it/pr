@@ -9,8 +9,11 @@ export async function POST(req: Request) {
   try {
     const { email, name, password } = await req.json()
 
-    if (!email || !password) {
-      return NextResponse.json({ error: "이메일과 비밀번호를 입력해주세요" }, { status: 400 })
+    if (!email || typeof email !== "string" || !email.includes("@")) {
+      return NextResponse.json({ error: "올바른 이메일을 입력해주세요" }, { status: 400 })
+    }
+    if (!password || typeof password !== "string" || password.length < 8) {
+      return NextResponse.json({ error: "비밀번호는 8자 이상이어야 합니다" }, { status: 400 })
     }
 
     const existing = await prisma.user.findUnique({ where: { email } })

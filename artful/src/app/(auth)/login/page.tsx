@@ -11,19 +11,29 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
 
+  // [17회차] 이메일 형식 체크, 에러 처리 강화
   const handleCredentials = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!email.includes("@")) {
+      toast.error("올바른 이메일을 입력해주세요")
+      return
+    }
     setLoading(true)
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-    })
-    setLoading(false)
-    if (result?.error) {
-      toast.error("이메일 또는 비밀번호가 올바르지 않습니다")
-    } else {
-      router.push("/dashboard")
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      })
+      if (result?.error) {
+        toast.error("이메일 또는 비밀번호가 올바르지 않습니다")
+      } else {
+        router.push("/dashboard")
+      }
+    } catch {
+      toast.error("로그인 중 오류가 발생했습니다")
+    } finally {
+      setLoading(false)
     }
   }
 

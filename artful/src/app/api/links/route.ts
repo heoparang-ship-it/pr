@@ -20,6 +20,15 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
+
+    // [13회차] 입력 검증
+    if (!body.title || typeof body.title !== "string" || body.title.trim().length === 0) {
+      return NextResponse.json({ error: "제목을 입력해주세요" }, { status: 400 })
+    }
+    if (!body.url || typeof body.url !== "string" || !body.url.startsWith("http")) {
+      return NextResponse.json({ error: "올바른 URL을 입력해주세요" }, { status: 400 })
+    }
+
     const link = await prisma.link.create({
       data: {
         portfolioId: portfolio.id,

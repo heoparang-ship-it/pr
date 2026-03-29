@@ -7,6 +7,8 @@ import { toast } from "sonner"
 export function useAutoSave() {
   const { portfolio, isDirty, setSaving, setDirty } = useEditorStore()
   const timeoutRef = useRef<NodeJS.Timeout>()
+  // [28회차] 저장 실패 시 재시도 카운트
+  const retryRef = useRef(0)
 
   useEffect(() => {
     if (!isDirty || !portfolio) return
@@ -15,7 +17,7 @@ export function useAutoSave() {
     timeoutRef.current = setTimeout(async () => {
       setSaving(true)
       try {
-        await fetch("/api/portfolio", {
+        const res = await fetch("/api/portfolio", {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -30,9 +32,20 @@ export function useAutoSave() {
             isPublished: portfolio.isPublished,
           }),
         })
+        if (!res.ok) {
+          const json = await res.json()
+          toast.error(json.error || "저장에 실패했습니다")
+          return
+        }
         setDirty(false)
+        retryRef.current = 0
       } catch {
-        toast.error("저장에 실패했습니다")
+        retryRef.current++
+        if (retryRef.current <= 3) {
+          toast.error(`저장 실패 (${retryRef.current}/3 재시도)`)
+        } else {
+          toast.error("저장에 반복적으로 실패하고 있습니다. 네트워크를 확인해주세요.")
+        }
       } finally {
         setSaving(false)
       }

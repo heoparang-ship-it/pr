@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { usePortfolio } from "@/hooks/usePortfolio"
 import { useEditorStore } from "@/stores/editorStore"
 import { useRouter } from "next/navigation"
@@ -31,7 +32,7 @@ export default function DashboardPage() {
       <div className="bg-card rounded-xl p-6 border border-border space-y-4">
         <div className="flex items-center gap-4">
           {portfolio.profileImage ? (
-            <img src={portfolio.profileImage} alt="" className="w-16 h-16 rounded-full object-cover" />
+            <Image src={portfolio.profileImage} alt={portfolio.artistName} width={64} height={64} className="w-16 h-16 rounded-full object-cover" />
           ) : (
             <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-xl font-bold">
               {portfolio.artistName.charAt(0)}
