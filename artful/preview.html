@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artful Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #fafafa; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ===== 랜딩 페이지 ===== */
+  .landing-hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+  .landing-hero h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 16px; line-height: 1.2; }
+  .landing-hero h1 span { color: #7c3aed; }
+  .landing-hero p { color: #a1a1aa; font-size: 1.1rem; margin-bottom: 32px; max-width: 400px; line-height: 1.6; }
+  .btn-primary { background: #7c3aed; color: white; padding: 16px 32px; border-radius: 12px; font-size: 1.1rem; font-weight: 600; display: inline-block; transition: opacity 0.2s; }
+  .btn-primary:hover { opacity: 0.9; }
+  .landing-sub { color: #71717a; font-size: 0.875rem; margin-top: 16px; }
+  .features { padding: 80px 20px; max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .feature-card { background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 24px; text-align: center; }
+  .feature-card .icon { font-size: 2rem; margin-bottom: 12px; }
+  .feature-card h3 { font-weight: 700; margin-bottom: 8px; }
+  .feature-card p { color: #a1a1aa; font-size: 0.875rem; line-height: 1.5; }
+  .cta-section { padding: 80px 20px; text-align: center; }
+  .cta-section h2 { font-size: 2rem; font-weight: 700; margin-bottom: 16px; }
+  .cta-section > p { color: #a1a1aa; margin-bottom: 32px; }
+  .footer-landing { padding: 32px; text-align: center; color: #52525b; font-size: 0.75rem; border-top: 1px solid #27272a; }
+
+  /* ===== 로그인 페이지 ===== */
+  .login-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
+  .login-box { width: 100%; max-width: 360px; }
+  .login-box h1 { font-size: 1.5rem; font-weight: 700; text-align: center; }
+  .login-box .sub { color: #a1a1aa; text-align: center; margin: 4px 0 24px; font-size: 0.9rem; }
+  .social-btn { width: 100%; padding: 12px; border-radius: 8px; font-weight: 600; text-align: center; margin-bottom: 8px; border: none; cursor: pointer; font-size: 0.95rem; }
+  .kakao-btn { background: #FEE500; color: #000; }
+  .naver-btn { background: #03C75A; color: #fff; }
+  .google-btn { background: #fff; color: #000; border: 1px solid #d4d4d8; }
+  .divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; }
+  .divider span { color: #71717a; font-size: 0.75rem; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #27272a; }
+  .input-field { width: 100%; padding: 12px 16px; background: #18181b; border: 1px solid #27272a; border-radius: 8px; color: #fafafa; font-size: 0.95rem; margin-bottom: 8px; outline: none; }
+  .input-field::placeholder { color: #71717a; }
+  .login-submit { width: 100%; padding: 12px; background: #7c3aed; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem; }
+  .login-link { text-align: center; margin-top: 20px; color: #71717a; font-size: 0.875rem; }
+  .login-link a { color: #7c3aed; }
+
+  /* ===== 공개 포트폴리오 (사운드 템플릿) ===== */
+  .portfolio-page { background: linear-gradient(135deg, #1a1a2e, #16213e); min-height: 100vh; color: white; }
+  .port-hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; text-align: center; padding: 20px; background: url('') center/cover; }
+  .port-hero::before { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
+  .port-hero-content { position: relative; z-index: 1; }
+  .profile-circle { width: 112px; height: 112px; border-radius: 50%; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; margin: 0 auto 16px; border: 2px solid rgba(255,255,255,0.2); }
+  .port-hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 8px; }
+  .port-hero .genre { color: rgba(255,255,255,0.6); font-size: 0.875rem; }
+  .play-btn { margin-top: 20px; padding: 12px 24px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 50px; border: none; color: white; font-size: 0.875rem; cursor: pointer; }
+  .scroll-arrow { position: absolute; bottom: 32px; color: rgba(255,255,255,0.4); animation: bounce 2s infinite; }
+  @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+  .works-section { padding: 64px 20px; max-width: 640px; margin: 0 auto; }
+  .works-section h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 24px; }
+  .works-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .work-card { background: rgba(255,255,255,0.05); border-radius: 12px; overflow: hidden; cursor: pointer; transition: background 0.2s; }
+  .work-card:hover { background: rgba(255,255,255,0.1); }
+  .work-thumb { width: 100%; aspect-ratio: 16/9; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+  .work-info { padding: 12px; }
+  .work-info p { font-size: 0.875rem; font-weight: 500; }
+  .work-info .type { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+
+  .about-section { padding: 64px 20px; max-width: 640px; margin: 0 auto; }
+  .about-section h2 { font-size: 1.25rem; font-weight: 700; margin-bottom: 16px; }
+  .about-section p { color: rgba(255,255,255,0.7); line-height: 1.7; }
+
+  .links-section { padding: 64px 20px; max-width: 360px; margin: 0 auto; }
+  .link-btn { display: block; width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 12px; text-align: center; font-weight: 600; margin-bottom: 12px; transition: background 0.2s; }
+  .link-btn:hover { background: rgba(255,255,255,0.2); }
+
+  .port-footer { padding: 32px; text-align: center; font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+  .port-footer a { color: rgba(255,255,255,0.4); }
+
+  .bgm-bar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(20px); border-top: 1px solid rgba(255,255,255,0.1); padding: 12px 20px; }
+  .bgm-inner { max-width: 640px; margin: 0 auto; display: flex; align-items: center; gap: 12px; }
+  .bgm-thumb { width: 40px; height: 40px; border-radius: 6px; background: rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; }
+  .bgm-title { flex: 1; font-size: 0.875rem; }
+  .bgm-pause { color: rgba(255,255,255,0.6); font-size: 0.875rem; cursor: pointer; background: none; border: none; }
+
+  /* ===== 관리자 ===== */
+  .admin-layout { display: flex; min-height: 100vh; }
+  .admin-sidebar { width: 220px; border-right: 1px solid #27272a; background: #18181b; padding: 20px; flex-shrink: 0; }
+  .admin-sidebar h2 { font-size: 1.1rem; font-weight: 700; margin-bottom: 24px; }
+  .admin-nav a { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px; font-size: 0.875rem; color: #a1a1aa; margin-bottom: 4px; transition: all 0.2s; }
+  .admin-nav a:hover, .admin-nav a.active { background: rgba(124,58,237,0.1); color: #7c3aed; }
+  .admin-nav .badge { margin-left: auto; background: #ef4444; color: white; font-size: 0.7rem; padding: 2px 6px; border-radius: 50px; }
+  .admin-main { flex: 1; padding: 24px; overflow: auto; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: #18181b; border: 1px solid #27272a; border-radius: 12px; padding: 16px; }
+  .stat-card .label { color: #71717a; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .stat-card .value { font-size: 1.5rem; font-weight: 700; }
+  .stat-card .sub { font-size: 0.7rem; color: #71717a; margin-top: 4px; }
+  .admin-table { width: 100%; background: #18181b; border: 1px solid #27272a; border-radius: 12px; overflow: hidden; }
+  .admin-table th { text-align: left; padding: 12px 16px; background: #27272a; font-size: 0.8rem; color: #a1a1aa; font-weight: 500; }
+  .admin-table td { padding: 12px 16px; border-top: 1px solid #27272a; font-size: 0.875rem; }
+  .badge-sm { padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: 600; }
+  .badge-admin { background: rgba(168,85,247,0.2); color: #a855f7; }
+  .badge-user { background: rgba(59,130,246,0.2); color: #3b82f6; }
+  .badge-pub { background: rgba(34,197,94,0.2); color: #22c55e; }
+  .badge-unpub { background: rgba(234,179,8,0.2); color: #eab308; }
+  .badge-banned { background: rgba(239,68,68,0.2); color: #ef4444; }
+  .action-btn { font-size: 0.75rem; cursor: pointer; background: none; border: none; padding: 4px 8px; }
+  .action-ban { color: #eab308; }
+  .action-del { color: #ef4444; }
+  .alert-box { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; padding: 16px; color: #ef4444; margin-bottom: 24px; }
+
+  /* ===== 페이지 구분 ===== */
+  .page-divider { text-align: center; padding: 40px 20px; background: #18181b; border-top: 3px solid #7c3aed; border-bottom: 3px solid #7c3aed; }
+  .page-divider h2 { font-size: 1.5rem; font-weight: 800; color: #7c3aed; }
+  .page-divider p { color: #71717a; font-size: 0.875rem; margin-top: 4px; }
+
+  @media (max-width: 768px) {
+    .landing-hero h1 { font-size: 2.2rem; }
+    .features { grid-template-columns: 1fr; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .admin-sidebar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== PAGE 1: 랜딩 ========== -->
+<div class="page-divider"><h2>PAGE 1: 랜딩 페이지</h2><p>artful.kr/</p></div>
+
+<div class="landing-hero">
+  <h1>당신의 음악,<br><span>하나의 링크로</span></h1>
+  <p>포트폴리오를 만들고, 링크 하나로 팬에게 공유하세요.<br>BGM이 깔리는 아티스트 쇼케이스 페이지.</p>
+  <a class="btn-primary" href="#login">무료로 시작하기</a>
+  <p class="landing-sub">카카오 · 네이버 · 구글 계정으로 바로 시작</p>
+</div>
+
+<div class="features">
+  <div class="feature-card">
+    <div class="icon">🎵</div>
+    <h3>BGM이 깔리는 포트폴리오</h3>
+    <p>팬이 링크를 클릭하면 당신의 음악이 자동 재생됩니다</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🎨</div>
+    <h3>Behance급 비주얼</h3>
+    <p>작품을 아름다운 카드 그리드로 전시하세요</p>
+  </div>
+  <div class="feature-card">
+    <div class="icon">🔗</div>
+    <h3>Linktree보다 강력한 링크</h3>
+    <p>SNS, 스트리밍, 연락처를 한 페이지에 모아 공유</p>
+  </div>
+</div>
+
+<div class="cta-section">
+  <h2>지금 바로 만들어보세요</h2>
+  <p>무료입니다. 카드 등록 없이 바로 시작.</p>
+  <a class="btn-primary" href="#login">무료로 시작하기</a>
+</div>
+<div class="footer-landing">© 2026 Artful. All rights reserved.</div>
+
+<!-- ========== PAGE 2: 로그인 ========== -->
+<div class="page-divider" id="login"><h2>PAGE 2: 로그인</h2><p>artful.kr/login</p></div>
+
+<div class="login-page">
+  <div class="login-box">
+    <h1>Artful</h1>
+    <p class="sub">당신의 음악, 하나의 링크로</p>
+    <button class="social-btn kakao-btn">카카오로 시작하기</button>
+    <button class="social-btn naver-btn">네이버로 시작하기</button>
+    <button class="social-btn google-btn">구글로 시작하기</button>
+    <div class="divider"><span>또는</span></div>
+    <input class="input-field" type="email" placeholder="이메일">
+    <input class="input-field" type="password" placeholder="비밀번호">
+    <button class="login-submit">로그인</button>
+    <p class="login-link">계정이 없으신가요? <a href="#">가입하기</a></p>
+  </div>
+</div>
+
+<!-- ========== PAGE 3: 공개 포트폴리오 ========== -->
+<div class="page-divider"><h2>PAGE 3: 공개 포트폴리오 (사운드 템플릿)</h2><p>artful.kr/dj-heoparang</p></div>
+
+<div class="portfolio-page">
+  <div class="port-hero">
+    <div class="port-hero-content">
+      <div class="profile-circle">H</div>
+      <h1>DJ HEOPARANG</h1>
+      <p class="genre">힙합, 일렉트로닉</p>
+      <button class="play-btn">▶ Play</button>
+    </div>
+    <div class="scroll-arrow">↓</div>
+  </div>
+
+  <div class="works-section">
+    <h2>Works</h2>
+    <div class="works-grid">
+      <div class="work-card">
+        <div class="work-thumb">▶</div>
+        <div class="work-info"><p>Midnight Groove</p><span class="type">VIDEO</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-thumb">▶</div>
+        <div class="work-info"><p>City Lights</p><span class="type">VIDEO</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-thumb">♪</div>
+        <div class="work-info"><p>Flow State</p><span class="type">AUDIO</span></div>
+      </div>
+      <div class="work-card">
+        <div class="work-thumb">▶</div>
+        <div class="work-info"><p>Summer Vibes</p><span class="type">VIDEO</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-section">
+    <h2>About</h2>
+    <p>서울 기반 프로듀서. 힙합과 일렉트로닉을 넘나드는 비트메이커. 2020년부터 활동, 다수의 인디 아티스트와 협업.</p>
+  </div>
+
+  <div class="links-section">
+    <a class="link-btn" href="#">Instagram</a>
+    <a class="link-btn" href="#">Spotify</a>
+    <a class="link-btn" href="#">YouTube</a>
+    <a class="link-btn" href="#">SoundCloud</a>
+  </div>
+
+  <div class="port-footer">
+    <p>Powered by <a href="#">Artful</a></p>
+    <a href="#">나도 만들기 →</a>
+  </div>
+
+  <div class="bgm-bar">
+    <div class="bgm-inner">
+      <div class="bgm-thumb">♪</div>
+      <span class="bgm-title">Midnight Groove</span>
+      <button class="bgm-pause">⏸</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== PAGE 4: 관리자 대시보드 ========== -->
+<div class="page-divider"><h2>PAGE 4: 관리자 대시보드</h2><p>artful.kr/admin</p></div>
+
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <h2>Artful Admin</h2>
+    <nav class="admin-nav">
+      <a href="#" class="active"><span>📊</span> 대시보드</a>
+      <a href="#"><span>👤</span> 유저 관리</a>
+      <a href="#"><span>🎨</span> 포트폴리오</a>
+      <a href="#"><span>🚨</span> 신고 관리 <span class="badge">3</span></a>
+      <a href="#"><span>📈</span> 분석</a>
+    </nav>
+    <div style="margin-top:32px; padding-top:16px; border-top:1px solid #27272a;">
+      <a href="#" style="color:#71717a; font-size:0.875rem;">← 대시보드로</a>
+    </div>
+  </div>
+  <div class="admin-main">
+    <h1 style="font-size:1.5rem; font-weight:700; margin-bottom:24px;">관리자 대시보드</h1>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">👤 전체 유저</div>
+        <div class="value">1,247</div>
+        <div class="sub">오늘 +12</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">🎨 포트폴리오</div>
+        <div class="value">983</div>
+        <div class="sub">발행 547</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">👁 전체 조회수</div>
+        <div class="value">45,892</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">🎵 전체 작품</div>
+        <div class="value">3,291</div>
+      </div>
+    </div>
+
+    <div class="alert-box">🚨 대기 중인 신고 3건이 있습니다 →</div>
+
+    <h2 style="font-weight:700; margin-bottom:12px;">최근 가입</h2>
+    <table class="admin-table">
+      <thead>
+        <tr><th>유저</th><th>가입경로</th><th>상태</th><th>조회수</th><th>액션</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>김민수</strong><br><span style="color:#71717a; font-size:0.75rem;">minsu@gmail.com</span></td>
+          <td style="color:#71717a;">kakao</td>
+          <td><span class="badge-sm badge-user">user</span></td>
+          <td style="color:#71717a;">234</td>
+          <td><button class="action-btn action-ban">밴</button> <button class="action-btn action-del">삭제</button></td>
+        </tr>
+        <tr>
+          <td><strong>이지은</strong><br><span style="color:#71717a; font-size:0.75rem;">jieun@naver.com</span></td>
+          <td style="color:#71717a;">naver</td>
+          <td><span class="badge-sm badge-admin">admin</span></td>
+          <td style="color:#71717a;">1,892</td>
+          <td><button class="action-btn action-ban">밴</button> <button class="action-btn action-del">삭제</button></td>
+        </tr>
+        <tr>
+          <td><strong>박서준</strong><br><span style="color:#71717a; font-size:0.75rem;">sjpark@gmail.com</span></td>
+          <td style="color:#71717a;">google</td>
+          <td><span class="badge-sm badge-user">user</span> <span class="badge-sm badge-banned">banned</span></td>
+          <td style="color:#71717a;">0</td>
+          <td><button class="action-btn action-ban">해제</button> <button class="action-btn action-del">삭제</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
