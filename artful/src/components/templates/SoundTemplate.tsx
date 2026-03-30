@@ -62,27 +62,27 @@ export default function SoundTemplate({ portfolio }: Props) {
           </div>
         )}
 
-        <div className="relative z-10 text-center space-y-4">
+        <div className="relative z-10 text-center space-y-4 animate-fade-in">
           {portfolio.profileImage ? (
             <img
               src={portfolio.profileImage}
               alt={`${portfolio.artistName} 프로필`}
-              className="w-28 h-28 rounded-full mx-auto object-cover border-2 border-white/20"
+              className="w-32 h-32 rounded-full mx-auto object-cover ring-4 ring-white/20 shadow-2xl"
               loading="eager"
             />
           ) : (
-            <div className="w-28 h-28 rounded-full mx-auto bg-white/10 flex items-center justify-center text-4xl font-bold" aria-label={`${portfolio.artistName} 아바타`}>
+            <div className="w-32 h-32 rounded-full mx-auto bg-white/10 backdrop-blur flex items-center justify-center text-5xl font-bold ring-4 ring-white/20" aria-label={`${portfolio.artistName} 아바타`}>
               {portfolio.artistName.charAt(0)}
             </div>
           )}
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tight">{portfolio.artistName}</h1>
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight">{portfolio.artistName}</h1>
           {portfolio.genre && (
-            <p className="text-white/60 text-sm">{portfolio.genre}</p>
+            <p className="text-white/50 text-sm tracking-widest uppercase">{portfolio.genre}</p>
           )}
           {bgmWork && !bgmPlaying && (
             <button
               onClick={() => setBgmPlaying(true)}
-              className="mt-4 px-6 py-3 bg-white/10 backdrop-blur rounded-full text-sm hover:bg-white/20 transition"
+              className="mt-6 px-8 py-3 bg-white/10 backdrop-blur-md rounded-full text-sm font-medium hover:bg-white/20 transition-all animate-pulse-glow"
               aria-label={`${bgmWork.title} 재생`}
             >
               ▶ Play
@@ -107,7 +107,7 @@ export default function SoundTemplate({ portfolio }: Props) {
                   setSelectedWork(work.id)
                   setBgmPlaying(false)
                 }}
-                className="bg-white/5 rounded-xl overflow-hidden hover:bg-white/10 transition text-left"
+                className="bg-white/5 rounded-xl overflow-hidden hover:bg-white/10 hover:scale-[1.02] transition-all duration-200 text-left"
                 aria-label={`${work.title} 열기`}
               >
                 {work.thumbnailUrl ? (
@@ -158,11 +158,14 @@ export default function SoundTemplate({ portfolio }: Props) {
       )}
 
       {/* 푸터 */}
-      <footer className="py-8 text-center text-white/30 text-xs" style={{ paddingBottom: bgmWork && bgmPlaying ? "80px" : undefined }}>
-        <p>Powered by <a href="/" className="hover:text-white/50">Artful</a></p>
-        <a href="/" className="text-white/40 hover:text-white/60 text-xs mt-1 inline-block">
-          나도 만들기 →
+      <footer className="py-12 text-center" style={{ paddingBottom: bgmWork && bgmPlaying ? "80px" : undefined }}>
+        <a
+          href="/"
+          className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur rounded-full text-white/70 text-xs font-medium hover:bg-white/20 hover:text-white transition-all"
+        >
+          Art<span className="text-red-400">ful</span>로 나도 만들기 →
         </a>
+        <p className="text-white/20 text-[10px] mt-4">© 2026 Artful</p>
       </footer>
 
       {/* BGM 플레이어 */}
@@ -206,7 +209,7 @@ export default function SoundTemplate({ portfolio }: Props) {
           aria-label={currentWork.title}
         >
           <div
-            className="w-full max-w-3xl"
+            className="w-full max-w-3xl animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-4">

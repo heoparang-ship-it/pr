@@ -11,7 +11,7 @@ const STYLES: Record<string, string> = {
 
 export default function StatusBadge({ status }: { status: string }) {
   return (
-    <span className={`px-2 py-0.5 rounded text-xs font-medium ${STYLES[status] || "bg-muted text-muted-foreground"}`}>
+    <span className={`px-2.5 py-0.5 rounded-lg text-xs font-medium ${STYLES[status] || "bg-muted text-muted-foreground"}`}>
       {status}
     </span>
   )

@@ -16,8 +16,8 @@ export default function AdminSidebar({ pendingReports = 0 }: { pendingReports?: 
 
   return (
     <aside className="w-56 border-r border-border bg-card min-h-screen p-4 shrink-0">
-      <Link href="/admin" className="text-lg font-bold block mb-6">
-        Artful Admin
+      <Link href="/admin" className="text-lg font-bold block mb-6 tracking-tight">
+        Art<span className="text-primary">ful</span> <span className="text-xs font-normal text-muted-foreground">Admin</span>
       </Link>
       <nav className="space-y-1">
         {NAV.map((item) => {

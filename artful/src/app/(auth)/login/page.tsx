@@ -12,7 +12,6 @@ export default function LoginPage() {
   const [password, setPassword] = useState("")
   const [loading, setLoading] = useState(false)
 
-  // [17회차] 이메일 형식 체크, 에러 처리 강화
   const handleCredentials = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email.includes("@")) {
@@ -40,39 +39,45 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-6">
-      <div className="w-full max-w-xs space-y-8">
-        <div className="text-center">
-          <h1 className="text-xl font-bold tracking-tight">Artful</h1>
-          <p className="text-muted-foreground text-xs mt-1">뮤지션을 위한 포트폴리오</p>
+      <div className="w-full max-w-sm animate-scale-in">
+        {/* 헤더 */}
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-block text-2xl font-bold tracking-tight mb-2">
+            Art<span className="text-primary">ful</span>
+          </Link>
+          <p className="text-muted-foreground text-sm">뮤지션을 위한 포트폴리오</p>
         </div>
 
+        {/* 소셜 로그인 */}
         <div className="space-y-2.5">
           <button
             onClick={() => signIn("kakao", { callbackUrl: "/dashboard" })}
-            className="w-full py-3 px-4 bg-[#FEE500] text-black text-sm font-semibold hover:bg-[#FDD800] transition"
+            className="w-full py-3 px-4 bg-[#FEE500] text-black text-sm font-semibold rounded-xl hover:brightness-95 transition"
           >
             카카오로 시작하기
           </button>
           <button
             onClick={() => signIn("naver", { callbackUrl: "/dashboard" })}
-            className="w-full py-3 px-4 bg-[#03C75A] text-white text-sm font-semibold hover:bg-[#02B550] transition"
+            className="w-full py-3 px-4 bg-[#03C75A] text-white text-sm font-semibold rounded-xl hover:brightness-95 transition"
           >
             네이버로 시작하기
           </button>
           <button
             onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
-            className="w-full py-3 px-4 bg-background text-foreground text-sm font-semibold hover:bg-muted transition border border-border"
+            className="w-full py-3 px-4 bg-background text-foreground text-sm font-semibold rounded-xl border border-border hover:bg-muted transition"
           >
             구글로 시작하기
           </button>
         </div>
 
-        <div className="flex items-center gap-3">
+        {/* 구분선 */}
+        <div className="flex items-center gap-3 my-6">
           <div className="flex-1 h-px bg-border" />
           <span className="text-[10px] text-muted-foreground uppercase tracking-widest">or</span>
           <div className="flex-1 h-px bg-border" />
         </div>
 
+        {/* 이메일 로그인 */}
         <form onSubmit={handleCredentials} className="space-y-2.5">
           <input
             type="email"
@@ -80,7 +85,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full py-3 px-4 bg-background border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition"
+            className="w-full py-3 px-4 bg-muted border border-border text-foreground text-sm rounded-xl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring transition"
           />
           <input
             type="password"
@@ -88,20 +93,21 @@ export default function LoginPage() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="w-full py-3 px-4 bg-background border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition"
+            className="w-full py-3 px-4 bg-muted border border-border text-foreground text-sm rounded-xl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring transition"
           />
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 px-4 bg-foreground text-background text-sm font-semibold hover:opacity-90 transition disabled:opacity-50"
+            className="w-full py-3 px-4 bg-foreground text-background text-sm font-semibold rounded-xl hover:opacity-90 transition disabled:opacity-50"
           >
             {loading ? "로그인 중..." : "로그인"}
           </button>
         </form>
 
-        <p className="text-center text-xs text-muted-foreground">
+        {/* 하단 링크 */}
+        <p className="text-center text-xs text-muted-foreground mt-6">
           계정이 없으신가요?{" "}
-          <Link href="/register" className="text-foreground font-medium hover:underline">
+          <Link href="/register" className="text-primary font-medium hover:underline">
             가입하기
           </Link>
         </p>

@@ -214,22 +214,26 @@ export default function EditPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* 헤더 */}
-      <header className="border-b border-border px-4 py-3 flex items-center justify-between sticky top-0 bg-background z-10">
-        <Link href="/dashboard" className="text-lg font-bold">← Artful</Link>
-        <span className="text-sm text-muted-foreground" aria-live="polite">
+      <header className="border-b border-border px-6 py-3 flex items-center justify-between sticky top-0 bg-background/80 backdrop-blur-md z-10">
+        <Link href="/dashboard" className="text-lg font-bold tracking-tight">
+          ← Art<span className="text-primary">ful</span>
+        </Link>
+        <span className={`text-xs font-medium px-2.5 py-1 rounded-xl transition ${
+          isSaving ? "bg-accent/10 text-accent" : isDirty ? "bg-primary/10 text-primary" : "bg-success/10 text-success"
+        }`} aria-live="polite">
           {isSaving ? "저장 중..." : isDirty ? "변경사항 있음" : "저장됨 ✓"}
         </span>
       </header>
 
       {/* 탭 */}
-      <nav className="border-b border-border flex overflow-x-auto sticky top-[53px] bg-background z-10" role="tablist">
+      <nav className="border-b border-border flex overflow-x-auto sticky top-[53px] bg-background/80 backdrop-blur-md z-10" role="tablist">
         {TABS.map((tab) => (
           <button
             key={tab.key}
             onClick={() => setActiveTab(tab.key)}
             role="tab"
             aria-selected={activeTab === tab.key}
-            className={`px-4 py-3 text-sm whitespace-nowrap transition ${
+            className={`px-5 py-3 text-sm font-medium whitespace-nowrap transition-colors ${
               activeTab === tab.key
                 ? "border-b-2 border-primary text-primary"
                 : "text-muted-foreground hover:text-foreground"
@@ -241,7 +245,7 @@ export default function EditPage() {
       </nav>
 
       {/* 에디터 콘텐츠 */}
-      <div className="max-w-xl mx-auto p-4 space-y-4 pb-20">
+      <div className="max-w-xl mx-auto p-6 space-y-4 pb-20 animate-fade-in">
         {activeTab === "basic" && (
           <>
             <label className="block">
@@ -250,7 +254,7 @@ export default function EditPage() {
                 value={portfolio.artistName}
                 onChange={(e) => updateField("artistName", e.target.value)}
                 required
-                className="mt-1 w-full py-2 px-3 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+                className="mt-1 w-full py-2 px-3 bg-muted border border-border rounded-xl focus:ring-2 focus:ring-ring/30 focus:border-ring focus:outline-none"
               />
             </label>
             <label className="block">
@@ -260,7 +264,7 @@ export default function EditPage() {
                 onChange={(e) => updateField("bio", e.target.value.slice(0, 200))}
                 maxLength={200}
                 rows={3}
-                className="mt-1 w-full py-2 px-3 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none resize-none"
+                className="mt-1 w-full py-2 px-3 bg-muted border border-border rounded-xl focus:ring-2 focus:ring-ring/30 focus:border-ring focus:outline-none resize-none"
               />
             </label>
             <label className="block">
@@ -269,7 +273,7 @@ export default function EditPage() {
                 value={portfolio.genre || ""}
                 onChange={(e) => updateField("genre", e.target.value)}
                 placeholder="힙합, R&B, 일렉트로닉"
-                className="mt-1 w-full py-2 px-3 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+                className="mt-1 w-full py-2 px-3 bg-muted border border-border rounded-xl focus:ring-2 focus:ring-ring/30 focus:border-ring focus:outline-none"
               />
             </label>
           </>
@@ -281,7 +285,7 @@ export default function EditPage() {
               <span className="text-sm text-muted-foreground">히어로 이미지 (권장: 1600px 이상, 10MB 이하)</span>
               <div
                 {...heroDropzone.getRootProps()}
-                className={`mt-1 border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition ${
+                className={`mt-1 border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition ${
                   heroDropzone.isDragActive ? "border-primary bg-primary/5" : "border-border hover:border-primary"
                 }`}
               >
@@ -297,7 +301,7 @@ export default function EditPage() {
               <span className="text-sm text-muted-foreground">프로필 사진</span>
               <div
                 {...profileDropzone.getRootProps()}
-                className={`mt-1 border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition ${
+                className={`mt-1 border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition ${
                   profileDropzone.isDragActive ? "border-primary bg-primary/5" : "border-border hover:border-primary"
                 }`}
               >
@@ -319,19 +323,19 @@ export default function EditPage() {
                 value={newWorkTitle}
                 onChange={(e) => setNewWorkTitle(e.target.value)}
                 placeholder="곡/작품 제목"
-                className="w-full py-2 px-3 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full py-2 px-3 bg-muted border border-border rounded-xl focus:ring-2 focus:ring-ring/30 focus:border-ring focus:outline-none"
               />
               <input
                 value={newWorkUrl}
                 onChange={(e) => setNewWorkUrl(e.target.value)}
                 placeholder="YouTube 또는 SoundCloud URL"
                 type="url"
-                className="w-full py-2 px-3 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full py-2 px-3 bg-muted border border-border rounded-xl focus:ring-2 focus:ring-ring/30 focus:border-ring focus:outline-none"
               />
               <button
                 onClick={handleAddWork}
                 disabled={addingWork}
-                className="w-full py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition disabled:opacity-50"
+                className="w-full py-2 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
               >
                 {addingWork ? "추가 중..." : "+ 작품 추가"}
               </button>
@@ -341,7 +345,7 @@ export default function EditPage() {
             )}
             <div className="space-y-2 mt-4">
               {portfolio.works.map((work) => (
-                <div key={work.id} className="flex items-center gap-3 bg-card p-3 rounded-lg border border-border">
+                <div key={work.id} className="flex items-center gap-3 bg-card p-3 rounded-xl border border-border">
                   {work.thumbnailUrl && (
                     <img src={work.thumbnailUrl} alt={work.title} className="w-12 h-12 rounded object-cover" />
                   )}
@@ -378,19 +382,19 @@ export default function EditPage() {
                 value={newLinkTitle}
                 onChange={(e) => setNewLinkTitle(e.target.value)}
                 placeholder="링크 제목 (예: Instagram)"
-                className="w-full py-2 px-3 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full py-2 px-3 bg-muted border border-border rounded-xl focus:ring-2 focus:ring-ring/30 focus:border-ring focus:outline-none"
               />
               <input
                 value={newLinkUrl}
                 onChange={(e) => setNewLinkUrl(e.target.value)}
                 placeholder="https://..."
                 type="url"
-                className="w-full py-2 px-3 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+                className="w-full py-2 px-3 bg-muted border border-border rounded-xl focus:ring-2 focus:ring-ring/30 focus:border-ring focus:outline-none"
               />
               <button
                 onClick={handleAddLink}
                 disabled={addingLink}
-                className="w-full py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition disabled:opacity-50"
+                className="w-full py-2 bg-primary text-primary-foreground rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
               >
                 {addingLink ? "추가 중..." : "+ 링크 추가"}
               </button>
@@ -400,7 +404,7 @@ export default function EditPage() {
             )}
             <div className="space-y-2 mt-4">
               {portfolio.links.map((link) => (
-                <div key={link.id} className="flex items-center gap-3 bg-card p-3 rounded-lg border border-border">
+                <div key={link.id} className="flex items-center gap-3 bg-card p-3 rounded-xl border border-border">
                   <div className="flex-1 min-w-0">
                     <p className="font-medium truncate">{link.title}</p>
                     <p className="text-xs text-muted-foreground truncate">{link.url}</p>
@@ -427,13 +431,13 @@ export default function EditPage() {
                 <input
                   value={portfolio.slug}
                   onChange={(e) => updateField("slug", e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ""))}
-                  className="flex-1 py-2 px-3 bg-muted border border-border rounded-lg focus:ring-2 focus:ring-primary focus:outline-none"
+                  className="flex-1 py-2 px-3 bg-muted border border-border rounded-xl focus:ring-2 focus:ring-ring/30 focus:border-ring focus:outline-none"
                   pattern="[a-z0-9-]+"
                 />
               </div>
               <p className="text-xs text-muted-foreground mt-1">영문 소문자, 숫자, 하이픈만 사용 가능</p>
             </label>
-            <div className="flex items-center justify-between bg-card p-4 rounded-lg border border-border">
+            <div className="flex items-center justify-between bg-card p-4 rounded-xl border border-border">
               <div>
                 <p className="font-medium">발행 상태</p>
                 <p className="text-sm text-muted-foreground">
@@ -442,7 +446,7 @@ export default function EditPage() {
               </div>
               <button
                 onClick={() => updateField("isPublished", !portfolio.isPublished)}
-                className={`px-4 py-2 rounded-lg font-medium transition ${
+                className={`px-4 py-2 rounded-xl font-medium transition ${
                   portfolio.isPublished
                     ? "bg-green-500/20 text-green-400 hover:bg-green-500/30"
                     : "bg-primary text-primary-foreground hover:bg-primary/90"

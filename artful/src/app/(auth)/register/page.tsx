@@ -34,7 +34,6 @@ export default function RegisterPage() {
       return
     }
 
-    // 가입 후 자동 로그인
     const result = await signIn("credentials", {
       email,
       password,
@@ -51,20 +50,53 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="w-full max-w-sm space-y-6">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold">Artful</h1>
-          <p className="text-muted-foreground mt-1">새 계정 만들기</p>
+    <div className="min-h-screen flex items-center justify-center bg-background px-6">
+      <div className="w-full max-w-sm animate-scale-in">
+        {/* 헤더 */}
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-block text-2xl font-bold tracking-tight mb-2">
+            Art<span className="text-primary">ful</span>
+          </Link>
+          <p className="text-muted-foreground text-sm">새 계정 만들기</p>
         </div>
 
-        <form onSubmit={handleRegister} className="space-y-3">
+        {/* 소셜 가입 */}
+        <div className="space-y-2.5">
+          <button
+            onClick={() => signIn("kakao", { callbackUrl: "/dashboard" })}
+            className="w-full py-3 px-4 bg-[#FEE500] text-black text-sm font-semibold rounded-xl hover:brightness-95 transition"
+          >
+            카카오로 시작하기
+          </button>
+          <button
+            onClick={() => signIn("naver", { callbackUrl: "/dashboard" })}
+            className="w-full py-3 px-4 bg-[#03C75A] text-white text-sm font-semibold rounded-xl hover:brightness-95 transition"
+          >
+            네이버로 시작하기
+          </button>
+          <button
+            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            className="w-full py-3 px-4 bg-background text-foreground text-sm font-semibold rounded-xl border border-border hover:bg-muted transition"
+          >
+            구글로 시작하기
+          </button>
+        </div>
+
+        {/* 구분선 */}
+        <div className="flex items-center gap-3 my-6">
+          <div className="flex-1 h-px bg-border" />
+          <span className="text-[10px] text-muted-foreground uppercase tracking-widest">or</span>
+          <div className="flex-1 h-px bg-border" />
+        </div>
+
+        {/* 이메일 가입 */}
+        <form onSubmit={handleRegister} className="space-y-2.5">
           <input
             type="text"
             placeholder="아티스트명"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full py-3 px-4 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full py-3 px-4 bg-muted border border-border text-foreground text-sm rounded-xl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring transition"
           />
           <input
             type="email"
@@ -72,7 +104,7 @@ export default function RegisterPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="w-full py-3 px-4 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full py-3 px-4 bg-muted border border-border text-foreground text-sm rounded-xl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring transition"
           />
           <input
             type="password"
@@ -81,20 +113,21 @@ export default function RegisterPage() {
             onChange={(e) => setPassword(e.target.value)}
             required
             minLength={8}
-            className="w-full py-3 px-4 rounded-lg bg-muted border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full py-3 px-4 bg-muted border border-border text-foreground text-sm rounded-xl placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/30 focus:border-ring transition"
           />
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 px-4 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition disabled:opacity-50"
+            className="w-full py-3 px-4 bg-primary text-primary-foreground text-sm font-semibold rounded-xl hover:bg-primary/90 transition disabled:opacity-50"
           >
             {loading ? "가입 중..." : "가입하기"}
           </button>
         </form>
 
-        <p className="text-center text-sm text-muted-foreground">
+        {/* 하단 링크 */}
+        <p className="text-center text-xs text-muted-foreground mt-6">
           이미 계정이 있으신가요?{" "}
-          <Link href="/login" className="text-primary hover:underline">
+          <Link href="/login" className="text-primary font-medium hover:underline">
             로그인
           </Link>
         </p>
