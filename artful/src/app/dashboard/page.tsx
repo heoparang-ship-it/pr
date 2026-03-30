@@ -38,7 +38,7 @@ export default function DashboardPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* 헤더 */}
-      <header className="border-b border-border">
+      <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border/50">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="text-lg font-bold tracking-tight">
             Art<span className="text-primary">ful</span>
@@ -100,7 +100,7 @@ export default function DashboardPage() {
                 navigator.clipboard.writeText(shareUrl)
                 toast.success("링크가 복사되었습니다")
               }}
-              className="shrink-0 px-3 py-1.5 bg-foreground text-background rounded-lg text-xs font-semibold hover:opacity-90 transition"
+              className="shrink-0 px-3 py-1.5 bg-primary text-primary-foreground rounded-lg text-xs font-bold hover:bg-primary/90 transition"
             >
               복사
             </button>
@@ -111,18 +111,18 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 gap-3 mt-6">
           <button
             onClick={() => router.push("/dashboard/edit")}
-            className="group p-5 bg-card rounded-2xl border border-border hover:border-primary/30 transition-all text-left"
+            className="group p-5 bg-card rounded-2xl border border-border hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-200 text-left"
           >
             <span className="text-2xl mb-2 block">✏️</span>
-            <span className="font-semibold text-sm group-hover:text-primary transition-colors">포트폴리오 편집</span>
+            <span className="font-bold text-sm group-hover:text-primary transition-colors">포트폴리오 편집</span>
             <span className="block text-xs text-muted-foreground mt-0.5">프로필, 작품, 링크 관리</span>
           </button>
           <button
             onClick={() => window.open(`/${portfolio.slug}`, "_blank")}
-            className="group p-5 bg-card rounded-2xl border border-border hover:border-primary/30 transition-all text-left"
+            className="group p-5 bg-card rounded-2xl border border-border hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-200 text-left"
           >
             <span className="text-2xl mb-2 block">👁️</span>
-            <span className="font-semibold text-sm group-hover:text-primary transition-colors">미리보기</span>
+            <span className="font-bold text-sm group-hover:text-primary transition-colors">미리보기</span>
             <span className="block text-xs text-muted-foreground mt-0.5">방문자에게 보이는 화면</span>
           </button>
         </div>

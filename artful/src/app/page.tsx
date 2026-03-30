@@ -24,11 +24,12 @@ export default function LandingPage() {
       </nav>
 
       {/* 히어로 */}
-      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center pt-14">
+      <main>
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center pt-14" aria-label="히어로">
         {/* 배경 그래디언트 오브 */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/5 blur-[120px]" />
-          <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] rounded-full bg-accent/5 blur-[100px]" />
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/10 blur-[100px]" />
+          <div className="absolute bottom-1/3 left-1/4 w-[400px] h-[400px] rounded-full bg-accent/8 blur-[80px]" />
         </div>
 
         <div className="relative z-10 max-w-2xl mx-auto">
@@ -38,7 +39,7 @@ export default function LandingPage() {
             For Musicians
           </div>
 
-          <h1 className="animate-slide-up text-5xl md:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight">
+          <h1 className="animate-slide-up text-5xl md:text-7xl font-extrabold mb-6 leading-[0.95] tracking-tight">
             당신의 음악,
             <br />
             <span className="text-primary">하나의 링크</span>로.
@@ -81,47 +82,31 @@ export default function LandingPage() {
       </section>
 
       {/* 기능 */}
-      <section className="py-28 px-6 max-w-4xl mx-auto">
+      <section className="py-20 px-6 max-w-4xl mx-auto" aria-label="주요 기능">
         <div className="text-center mb-16">
           <p className="text-primary text-xs font-bold tracking-widest uppercase mb-3">Features</p>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">뮤지션을 위해 만들었습니다</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          <div className="group p-6 rounded-2xl border border-border hover:border-primary/30 hover:bg-primary/[0.02] transition-all duration-300">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-lg mb-4 group-hover:scale-110 transition-transform">
-              🎵
+          {[
+            { icon: "🎵", title: "BGM 포트폴리오", desc: "팬이 당신의 페이지에 들어오면 음악이 흐릅니다. 첫인상부터 다르게." },
+            { icon: "🎬", title: "작품 쇼케이스", desc: "영상, 이미지, 오디오를 깔끔한 그리드로 전시합니다." },
+            { icon: "🔗", title: "원링크 공유", desc: "SNS, 스트리밍, 연락처를 한 페이지에 모아 공유하세요." },
+          ].map((item) => (
+            <div key={item.title} className="group p-6 rounded-2xl border border-border bg-card hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-xl mb-4 group-hover:scale-110 transition-transform">
+                {item.icon}
+              </div>
+              <h3 className="font-bold text-lg mb-2">{item.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{item.desc}</p>
             </div>
-            <h3 className="font-bold text-lg mb-2">BGM 포트폴리오</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              팬이 당신의 페이지에 들어오면 음악이 흐릅니다. 첫인상부터 다르게.
-            </p>
-          </div>
-
-          <div className="group p-6 rounded-2xl border border-border hover:border-primary/30 hover:bg-primary/[0.02] transition-all duration-300">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-lg mb-4 group-hover:scale-110 transition-transform">
-              🎬
-            </div>
-            <h3 className="font-bold text-lg mb-2">작품 쇼케이스</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              영상, 이미지, 오디오를 깔끔한 그리드로 전시합니다.
-            </p>
-          </div>
-
-          <div className="group p-6 rounded-2xl border border-border hover:border-primary/30 hover:bg-primary/[0.02] transition-all duration-300">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary text-lg mb-4 group-hover:scale-110 transition-transform">
-              🔗
-            </div>
-            <h3 className="font-bold text-lg mb-2">원링크 공유</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed">
-              SNS, 스트리밍, 연락처를 한 페이지에 모아 공유하세요.
-            </p>
-          </div>
+          ))}
         </div>
       </section>
 
       {/* 사용법 */}
-      <section className="py-28 px-6 border-t border-border">
+      <section className="py-20 px-6 border-t border-border" aria-label="사용 방법">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <p className="text-primary text-xs font-bold tracking-widest uppercase mb-3">How it works</p>
@@ -147,26 +132,29 @@ export default function LandingPage() {
       </section>
 
       {/* CTA */}
-      <section className="relative py-28 px-6 text-center overflow-hidden">
-        <div className="absolute inset-0 bg-primary/[0.03] pointer-events-none" />
+      <section className="relative py-24 px-6 text-center overflow-hidden" aria-label="시작하기">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.04] to-transparent pointer-events-none" />
         <div className="relative z-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">
             지금 만들어보세요.
           </h2>
-          <p className="text-muted-foreground mb-8">무료. 카드 등록 없이 바로 시작.</p>
+          <p className="text-muted-foreground text-lg mb-10">무료. 카드 등록 없이 바로 시작.</p>
           <Link
             href="/register"
-            className="group inline-flex items-center px-8 py-4 bg-primary text-primary-foreground font-bold rounded-xl hover:shadow-lg hover:shadow-primary/25 hover:-translate-y-0.5 transition-all duration-200"
+            className="group inline-flex items-center px-10 py-4 bg-primary text-primary-foreground text-base font-bold rounded-xl hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-1 transition-all duration-200"
           >
             시작하기
-            <span className="ml-2 group-hover:translate-x-0.5 transition-transform">→</span>
+            <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
           </Link>
         </div>
       </section>
 
+      </main>
+
       {/* 푸터 */}
-      <footer className="py-8 text-center text-muted-foreground text-xs border-t border-border">
-        <p>© 2026 Artful · 주식회사 엑스컴</p>
+      <footer className="py-10 text-center border-t border-border">
+        <span className="text-sm font-bold tracking-tight">Art<span className="text-primary">ful</span></span>
+        <p className="text-muted-foreground text-xs mt-2">© 2026 Artful · 주식회사 엑스컴</p>
       </footer>
     </div>
   )
