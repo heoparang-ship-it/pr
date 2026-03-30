@@ -75,7 +75,7 @@ export default function SoundTemplate({ portfolio }: Props) {
               {portfolio.artistName.charAt(0)}
             </div>
           )}
-          <h1 className="text-4xl font-bold">{portfolio.artistName}</h1>
+          <h1 className="text-3xl md:text-5xl font-bold tracking-tight">{portfolio.artistName}</h1>
           {portfolio.genre && (
             <p className="text-white/60 text-sm">{portfolio.genre}</p>
           )}
@@ -98,7 +98,7 @@ export default function SoundTemplate({ portfolio }: Props) {
       {/* 작품 */}
       {portfolio.works.length > 0 && (
         <section className="px-4 py-16 max-w-2xl mx-auto" aria-label="작품">
-          <h2 className="text-xl font-bold mb-6">Works</h2>
+          <h2 className="text-xs font-bold tracking-widest uppercase text-white/50 mb-6">Works</h2>
           <div className="grid grid-cols-2 gap-4">
             {portfolio.works.map((work) => (
               <button
@@ -135,7 +135,7 @@ export default function SoundTemplate({ portfolio }: Props) {
       {/* About */}
       {portfolio.bio && (
         <section className="px-4 py-16 max-w-2xl mx-auto" aria-label="소개">
-          <h2 className="text-xl font-bold mb-4">About</h2>
+          <h2 className="text-xs font-bold tracking-widest uppercase text-white/50 mb-4">About</h2>
           <p className="text-white/70 leading-relaxed whitespace-pre-line">{portfolio.bio}</p>
         </section>
       )}

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next"
 import localFont from "next/font/local"
 import { Toaster } from "sonner"
 import "./globals.css"
+import { ThemeScript } from "./ThemeScript"
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -12,7 +13,10 @@ const geistSans = localFont({
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#0a0a0a",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
 }
 
 export const metadata: Metadata = {
@@ -40,10 +44,13 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko" className="dark">
-      <body className={`${geistSans.variable} font-sans antialiased bg-background text-foreground`}>
+    <html lang="ko" suppressHydrationWarning>
+      <head>
+        <ThemeScript />
+      </head>
+      <body className={`${geistSans.variable} font-sans antialiased bg-background text-foreground transition-colors`}>
         {children}
-        <Toaster theme="dark" position="bottom-center" />
+        <Toaster position="bottom-center" />
       </body>
     </html>
   )

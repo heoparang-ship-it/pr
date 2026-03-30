@@ -10,16 +10,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#0a0a0a",
-        foreground: "#ededed",
-        card: "#141414",
-        "card-foreground": "#ededed",
-        primary: "#6366f1",
-        "primary-foreground": "#ffffff",
-        muted: "#1a1a1a",
-        "muted-foreground": "#a1a1aa",
-        border: "#27272a",
-        accent: "#6366f1",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+        card: "var(--card)",
+        "card-foreground": "var(--card-foreground)",
+        primary: "var(--primary)",
+        "primary-foreground": "var(--primary-foreground)",
+        muted: "var(--muted)",
+        "muted-foreground": "var(--muted-foreground)",
+        border: "var(--border)",
+        accent: "var(--primary)",
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "Pretendard", "sans-serif"],
