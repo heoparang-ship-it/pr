@@ -6,6 +6,8 @@ export interface User {
   name: string | null
   provider: "kakao" | "naver" | "google" | "credentials" | null
   profileImage: string | null
+  role: string
+  isBanned: boolean
   createdAt: Date
 }
 

@@ -108,10 +108,14 @@ export const authConfig: NextAuthConfig = {
     async signIn({ user, account }) {
       if (!user.email || !account) return true
 
+      // 밴된 유저 로그인 차단
+      const existingCheck = await prisma.user.findUnique({
+        where: { email: user.email },
+      })
+      if (existingCheck?.isBanned) return false
+
       if (account.provider !== "credentials") {
-        const existing = await prisma.user.findUnique({
-          where: { email: user.email },
-        })
+        const existing = existingCheck
         if (!existing) {
           // 카카오 이메일 없는 경우 대응
           const email =
@@ -137,6 +141,7 @@ export const authConfig: NextAuthConfig = {
         })
         if (dbUser) {
           token.userId = dbUser.id
+          token.role = dbUser.role
         }
       }
       return token
@@ -145,6 +150,7 @@ export const authConfig: NextAuthConfig = {
     async session({ session, token }) {
       if (token.userId) {
         session.user.id = token.userId as string
+        session.user.role = (token.role as string) || "user"
       }
       return session
     },

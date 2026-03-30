@@ -15,6 +15,8 @@ model User {
   password     String?
   provider     String?
   profileImage String?
+  role         String    @default("user")   // "user" | "admin"
+  isBanned     Boolean   @default(false)
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   portfolio    Portfolio?
@@ -38,6 +40,7 @@ model Portfolio {
   works        Work[]
   links        Link[]
   pageViews    PageView[]
+  reports      Report[]
 }
 
 model Work {
@@ -79,4 +82,20 @@ model PageView {
 
   @@index([portfolioId])
   @@index([ipHash, portfolioId])
+}
+
+model Report {
+  id             String    @id @default(cuid())
+  reason         String    // spam | inappropriate | copyright | other
+  description    String?
+  status         String    @default("pending") // pending | reviewed | dismissed
+  portfolioId    String
+  portfolio      Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  reporterIpHash String?
+  reviewedBy     String?
+  reviewedAt     DateTime?
+  createdAt      DateTime  @default(now())
+
+  @@index([status])
+  @@index([portfolioId])
 }
